@@ -50,38 +50,58 @@ def verCarrito(carrito,DicProductos):
         print("El carrito se encuentra vacio ")
     else:
         print ("Los productos en el carrito son los siguientes: ")
-        print (DicCarrito)
-        print("Desea modificar el carrito? \n1----> Si \n2---->No   ")
-        opcion = input("")
-        if opcion == "1":
-            codigo = input ("Ingrese el codigo del producto a eliminar \n")
-            bandera = False
+        for Codigo in carrito:
+            print("Codigo: ", carrito[Codigo]["codigo"])
+            print("_______________________")
+            print("Nombre: ", carrito[Codigo]["Nombre"])
+            print("_______________________")
+            print("Precio: ", carrito[Codigo]["Precio"])
+            print("_______________________")
+            print("Cantidad: ", carrito[Codigo]["Cantidad"])
+            print("  ")
+            print("  ")
 
-            if codigo in carrito:
-                print("Producto encontrado ")
-                bandera = True
 
-            if bandera == False:
-                print("Producto no encontrado, Intente nuevamente")
-            else:
-                numero = int(input ("Cuantos productos desea eliminar? \n"))
-                if numero >= 0 and numero <= carrito[codigo]["Cantidad"]:
-                    
-                    if numero == carrito[codigo]["Cantidad"]:
-                        carrito.pop(codigo)
-                    else:
-                        nuevoNumero = carrito[codigo]["Cantidad"] - numero
+        bandera_x = True
+        while bandera_x == True:
+            print("Desea modificar el carrito? \n1----> Si \n2---->No   ")
+            opcion = input("")
+            if opcion == "1":
+                codigo = input ("Ingrese el codigo del producto a eliminar \n")
+                bandera = False
 
-                        carrito[codigo]["Cantidad"] = nuevoNumero
-                        carrito[codigo]["Subtotal"] = nuevoNumero * carrito[codigo]["Precio"]
-                    for cod in DicProductos:
-                        if int(codigo) == DicProductos[cod]["Codigo"]:
-                            reponer = DicProductos[cod]["Stock"]
-                            DicProductos[cod]["Stock"] = (reponer + numero)
-                    regresarLista = [DicProductos,carrito]
+                if codigo in carrito:
+                    print("Producto encontrado ")
+                    bandera = True
 
+                if bandera == False:
+                    print("Producto no encontrado, Intente nuevamente")
                 else:
-                    print("Su carrito no posee esa cantidad...")
+                    numero = int(input ("Cuantos productos desea eliminar? \n"))
+                    if numero >= 0 and numero <= carrito[codigo]["Cantidad"]:
+                        
+                        if numero == carrito[codigo]["Cantidad"]:
+                            carrito.pop(codigo)
+                        else:
+                            nuevoNumero = carrito[codigo]["Cantidad"] - numero
+
+                            carrito[codigo]["Cantidad"] = nuevoNumero
+                            carrito[codigo]["Subtotal"] = nuevoNumero * carrito[codigo]["Precio"]
+                        for cod in DicProductos:
+                            if int(codigo) == DicProductos[cod]["Codigo"]:
+                                reponer = DicProductos[cod]["Stock"]
+                                DicProductos[cod]["Stock"] = (reponer + numero)
+                        regresarLista = [DicProductos,carrito]
+
+                    else:
+                        print("Su carrito no posee esa cantidad...")
+            if opcion == "2":
+                bandera_x = False
+            
+            else:
+                print("Opcion no valida")
+                print(" ")
+                
                 
     return regresarLista
 
@@ -134,29 +154,32 @@ def mostrarProductosBreve():
 
 def buscarProductos(DicProductos, carrito):
     regresarLista = [DicProductos,carrito]
-    cod = input("Ingrese el codigo o nombre del producto...")
-    bandera = False
-    for key , Nombre in DicProductos.items():
-        if (str(DicProductos[key]["Codigo"]) == cod) or (DicProductos[key]["Nombre"] == cod): ## if cod in DicPorductos[key]
-            llave = key
-            print("Producto encontrado")
-            print(" ")
-            print("Codigo: ", DicProductos[key]["Codigo"])
-            print("_______________________")
-            print("Nombre: ", DicProductos[key]["Nombre"])
-            print("_______________________")
-            print("Marca: ", DicProductos[key]["Marca"])
-            print("_______________________")
-            print("Precio: ", DicProductos[key]["Precio"])
-            print("_______________________")
-            print("Stock: ", DicProductos[key]["Stock"])
-            print("_______________________")
-            print("Material: ", DicProductos[key]["Material"])
-            print("  ")
-            print("  ")
-            bandera = True
-    if bandera == False:
-        print("Producto no encontrado, Intente nuevamente")
+    bandera_x = True
+    while bandera_x == True:
+        cod = input("Ingrese el codigo o nombre del producto...")
+        bandera = False
+        for key , Nombre in DicProductos.items():
+            if (str(DicProductos[key]["Codigo"]) == cod) or (DicProductos[key]["Nombre"] == cod): ## if cod in DicPorductos[key]
+                llave = key
+                print("Producto encontrado")
+                print(" ")
+                print("Codigo: ", DicProductos[key]["Codigo"])
+                print("_______________________")
+                print("Nombre: ", DicProductos[key]["Nombre"])
+                print("_______________________")
+                print("Marca: ", DicProductos[key]["Marca"])
+                print("_______________________")
+                print("Precio: ", DicProductos[key]["Precio"])
+                print("_______________________")
+                print("Stock: ", DicProductos[key]["Stock"])
+                print("_______________________")
+                print("Material: ", DicProductos[key]["Material"])
+                print("  ")
+                print("  ")
+                bandera = True
+                bandera_x = False
+        if bandera == False:
+            print("Producto no encontrado, Intente nuevamente")
     else:
         banderaDos = True
         while banderaDos == True:
@@ -204,36 +227,41 @@ def buscarProductos(DicProductos, carrito):
 
 
 def finalizarCompra(DicCarrito, DicProductos):
-    banderaX = False 
+    salir = False
     
-    while banderaX == False:
+    while salir == False:
 
         total = 0
         for llave in DicCarrito:
             print("Usted esta por adquirir:")
             print("Nombre: ", DicCarrito[llave]["Nombre"])
-            print("Marca: ", DicCarrito[llave]["Marca"])
-            print("Cantidad: ", DicCarrito[llave]["Stock"])
+            print("Precio: ", DicCarrito[llave]["Precio"])
+            print("Cantidad: ", DicCarrito[llave]["Cantidad"])
             print("")
             print("")
             print("")
-            subtotal = DicCarrito[llave]["Cantidad"] * DicProductos[llave]["Precio"]
+            subtotal = int(DicCarrito[llave]["Cantidad"]) * int(DicCarrito[llave]["Precio"])
 
             print("el subtotal de su compra es de: ")
             print ("$" + str(subtotal))
         
             total += subtotal
-        opcion = input("Esta conforme con su compra? 1) SI\n2) NO\n")
+        opcion = input("Esta conforme con su compra?\n 1) SI\n2) NO\n")
 
         if (opcion == "SI") or (opcion == "1") or (opcion == "si"):
-            print ("El total de su compra es de: " + "$" + total)
+            print ("El total de su compra es de: " + "$" + str(total))
             print("Gracias por visitar Artesanias Lucas, vuelva pronto!!")
-            salir == False
+            salir = True
             DicCarrito.clear()
+            op = input("")
         elif (opcion == "NO") or (opcion == "2") or (opcion == "no"):
-            banderaX = True
+            print("No se finalizo la compra")
+            op = input("")
+            salir = True
+        else:
+            print("Opcion no valida")
+            print(" ")
         
-#Falta completar
 
 
 #•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦•♦
@@ -243,6 +271,7 @@ salir = True
 spacio = ""
 
 while salir == True:
+    os.system("cls")
     print("Bienvenidos a Artesanias Lucas!! \n A continuacion nuestro menu: \n 1-Mostrar productos. \n 2-Detalles del producto. \n 3-Ver carrito. \n 4-Realizar compra. \n 5-Finalizar compra. \n 6-Salir.")
     opcion = input("Que desea realizar? ")
     if opcion == "1":
@@ -265,9 +294,9 @@ while salir == True:
         DicProductos = dobleDic[0]
         espacio = input("Presione una tecla para continuar.....")
         os.system("cls")
-    elif opcion == 5:
-        finalizarCompra(DicProductos, DicCarrito)
-    elif opcion == 6:
+    elif opcion == "5":
+        finalizarCompra(DicCarrito,DicProductos)
+    elif opcion == "6":
         print("Gracias por visitar Artesanias Lucas, vuelva pronto!!")
         salir == False
 
