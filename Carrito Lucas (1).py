@@ -207,24 +207,30 @@ def finalizarCompra(DicCarrito, DicProductos):
     banderaX = False 
     
     while banderaX == False:
-        for i in range(0, len(DicCarrito.items())):
+
+        total = 0
+        for llave in DicCarrito:
             print("Usted esta por adquirir:")
-            print("Nombre: ", DicCarrito["Nombre"])
-            print("Marca: ", DicCarrito["Marca"])
-            print("Cantidad: ", DicCarrito["Stock"])
+            print("Nombre: ", DicCarrito[llave]["Nombre"])
+            print("Marca: ", DicCarrito[llave]["Marca"])
+            print("Cantidad: ", DicCarrito[llave]["Stock"])
             print("")
             print("")
             print("")
-        llave = Key
-        print("el subtotal de su compra es de: ")
-        subtotal = DicCarrito[llave]["Cantidad"] * DicProductos[llave]["Precio"]
-        total = subtotal
-        opcion = input("Esta conforme con su compra? \n")
-        if opcion == "SI":
+            subtotal = DicCarrito[llave]["Cantidad"] * DicProductos[llave]["Precio"]
+
+            print("el subtotal de su compra es de: ")
+            print ("$" + str(subtotal))
+        
+            total += subtotal
+        opcion = input("Esta conforme con su compra? 1) SI\n2) NO\n")
+
+        if (opcion == "SI") or (opcion == "1") or (opcion == "si"):
             print ("El total de su compra es de: " + "$" + total)
             print("Gracias por visitar Artesanias Lucas, vuelva pronto!!")
             salir == False
-        else:
+            DicCarrito.clear()
+        elif (opcion == "NO") or (opcion == "2") or (opcion == "no"):
             banderaX = True
         
 #Falta completar
