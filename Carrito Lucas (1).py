@@ -230,7 +230,7 @@ def finalizarCompra(DicCarrito, DicProductos):
     salir = False
     
     while salir == False:
-
+        subtotal = 0
         total = 0
         for llave in DicCarrito:
             print("Usted esta por adquirir:")
@@ -240,9 +240,9 @@ def finalizarCompra(DicCarrito, DicProductos):
             print("")
             print("")
             print("")
-            subtotal = int(DicCarrito[llave]["Cantidad"]) * int(DicCarrito[llave]["Precio"])
+            subtotal +=  int(DicCarrito[llave]["Precio"] * int(DicCarrito[llave]["Cantidad"]))
 
-            print("el subtotal de su compra es de: ")
+            print("El subtotal de su compra es de: ")
             print ("$" + str(subtotal))
         
             total += subtotal
@@ -309,32 +309,6 @@ while salir == True:
 
 
 
-
-
-
-"""def validarOpciones():
-    if opcion == 1:
-            mostrarProductosCompletos()           
-   
-    if opcion == 2:
-            #mostrarProductoBreve()
-
-    if opcion == 3:
-            #buscarProductoPorCodigo()  
-"""
-
-
-
-
-
-
-
-"""#while salir :
-    #opcion = int(input("Que desea realizar? "))
-    #validarOpciones (1 al 5)
-   #aca hacer una funcion para validar opcion , si existe la opcion
-   #derivar a la opcion correspondiente a su ves con otra funcion
-   #validarOpciones"""
 
 
    
